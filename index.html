@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Dear Sister - Ankku Dii</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+
+        body {
+            background: #000;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1200px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* 3D Moving Background - Subtle Rose Petal Vibe */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
+        /* Royal Lighting Frame */
+        .neon-frame {
+            position: relative;
+            padding: 8px;
+            border-radius: 35px;
+            background: linear-gradient(45deg, #ffd700, #ffffff, #ff9a9e, #ffd700);
+            background-size: 300%;
+            animation: borderGlow 4s linear infinite;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            transition: transform 0.2s ease-out;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
+        }
+
+        .main-card {
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(25px);
+            padding: 35px 25px;
+            border-radius: 30px;
+            width: 320px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        /* Sisterly DPs with Shimmer Effect */
+        .dp-boundary {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+            object-fit: cover;
+            animation: floatDP 3.5s ease-in-out infinite, picShimmer 2s infinite;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            z-index: 5;
+        }
+
+        @keyframes picShimmer {
+            0%, 100% { filter: brightness(1); box-shadow: 0 0 15px #ffd700; }
+            50% { filter: brightness(1.4); box-shadow: 0 0 25px #ffffff; }
+        }
+
+        @keyframes floatDP {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+
+        /* Positioning around the card */
+        .dp1 { top: -40px; left: -40px; }
+        .dp2 { top: -40px; right: -40px; animation-delay: 0.7s; }
+        .dp3 { bottom: -40px; left: -40px; animation-delay: 1.4s; }
+        .dp4 { bottom: -40px; right: -40px; animation-delay: 2.1s; }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #ffd700; margin-bottom: 5px; }
+
+        .sister-tag {
+            color: #ff9a9e;
+            letter-spacing: 3px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .desi-respect {
+            font-size: 0.9rem;
+            margin: 15px 0;
+            line-height: 1.6;
+            color: #f8f8f8;
+            background: rgba(255, 215, 0, 0.05);
+            padding: 18px;
+            border-radius: 15px;
+            border-left: 3px solid #ffd700;
+        }
+
+        /* Royal Surprise Button */
+        .btn-surprise {
+            background: linear-gradient(45deg, #ffd700, #ff9a9e);
+            color: #000;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+            animation: pulseBtn 2s infinite;
+            text-transform: uppercase;
+        }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.03); filter: brightness(1.2); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+
+        #surprise-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, #1a1a1a, #000);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(1.1); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="neon-frame" id="interactive-card">
+        <img src="ankku dii.jpg" class="dp-boundary dp1">
+        <img src="ankku dii.jpg" class="dp-boundary dp2">
+        <img src="ankku dii.jpg" class="dp-boundary dp3">
+        <img src="ankku dii.jpg" class="dp-boundary dp4">
+
+        <div class="main-card">
+            <span class="sister-tag">GOOD NIGHT DII</span>
+            <h1>Ankku Dii</h1>
+            
+            <div class="desi-respect">
+                "Dii, aap meri vo 'Guru' ho jisne hamesha raasta dikhaya. <br><br>
+                Aapki innocence aur aapka pyaar mere liye sabse badi taqat hai. Bhagwan aapko hamesha khush rakhe."
+            </div>
+
+            <button class="btn-surprise" onclick="openSurprise()">Click for Suprise</button>
+        </div>
+    </div>
+
+    <div id="surprise-screen">
+        <h1 style="font-size: 3rem; color: #ffd700;">Happy Teddy Day, Dii! 🧸</h1>
+        <p style="font-size: 1.2rem; color: #ffffff; margin: 20px;">You are the most precious person in my life.</p>
+        <p style="color: #ff9a9e; font-style: italic;">"Respect & Love Always, Your Brother."</p>
+        <button class="btn-surprise" onclick="location.reload()" style="margin-top: 40px; color: black;">Back with Love</button>
+    </div>
+
+    <script>
+        // Starfield / Petal Fall Effect
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let stars = Array(100).fill().map(() => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2,
+            speed: Math.random() * 0.3 + 0.1,
+            opacity: Math.random()
+        }));
+
+        function draw() {
+            ctx.fillStyle = "black"; ctx.fillRect(0,0,canvas.width, canvas.height);
+            stars.forEach(s => {
+                ctx.fillStyle = `rgba(255, 215, 0, ${s.opacity})`;
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
+                s.y += s.speed; if(s.y > canvas.height) s.y = 0;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+        // Surprise logic
+        function openSurprise() {
+            document.getElementById('surprise-screen').style.display = 'flex';
+            // Golden and Pink Confetti
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ffd700', '#ff9a9e', '#ffffff']
+            });
+        }
+
+        // Touch Tilt
+        const card = document.getElementById('interactive-card');
+        document.body.addEventListener('touchmove', (e) => {
+            let x = (window.innerWidth / 2 - e.touches[0].pageX) / 20;
+            let y = (window.innerHeight / 2 - e.touches[0].pageY) / 20;
+            card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+        });
+    </script>
+</body>
+</html>
